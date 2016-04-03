@@ -48,9 +48,10 @@ body {
 		margin-left: 0px;
 
 		ul {
+			text-align:center;
 			li {
 				margin-left: 0px;
-				display: block;
+				display: inline;
 				a {
 					padding: 0px 0px;
 				}
@@ -88,12 +89,12 @@ body {
 		}
 		footer.inner {
 		  text-align: center;
-		  margin: 0px 70px 0px 40px;
+		  margin: 0px 70px 0px 70px;
 		  width: auto;
 		}
 		.mid-col-container {
-			padding: 0px 70px 0px 100px;
-			max-width: 800px;
+			padding: 0px 70px 0px 70px;
+			max-width: 90%;
 			#content {
 				width: 100%;
 				article {
@@ -196,16 +197,12 @@ body {
 			width: 100%;
 		}
 	}
-	.left-col:hover {
-		opacity: 1;
-	}
 	.left-col {
 		width: 23%;
 		position: fixed;
 		color: $color-gray05;
 		height: 100%;
 		font-size: 1.3em;
-		opacity: $opacity-sidebar;
 		-webkit-transition: all .2s ease-in;
 		-moz-transition: all .2s ease-in;
 		-o-transition: all .2s ease-in;
@@ -213,12 +210,12 @@ body {
 		transition: all .2s ease-in;
 		
 		.intrude-less {
-			width: 80%;
+			width: 100%;
 		}
 		
 		#header {
 			width: 100%;
-			padding: 20% 0% 0% 15%;
+			padding: 20% 0% 0% 0%;
 			#main-nav {
 				margin-top: 10px;
 
@@ -227,10 +224,14 @@ body {
 				}
 			}
 			.profilepic {
+
+				text-align:center;
 				img {
-					border-radius: 50%;
-					-moz-border-radius: 50%;
-					-webkit-border-radius: 50%;
+					margin:0px auto;
+
+					border-radius: 20%;
+					-moz-border-radius: 20%;
+					-webkit-border-radius: 20%;
 				}
 			}
 			a {
