@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://gukong.github.io/atom.xml" rel="self"/>
   <link href="http://gukong.github.io/"/>
-  <updated>2016-04-03T19:46:15+08:00</updated>
+  <updated>2016-04-03T21:09:59+08:00</updated>
   <id>http://gukong.github.io/</id>
   <author>
     <name><![CDATA[Nate]]></name>
@@ -46,7 +46,7 @@
 
 <h4>一、布局 UIImageView</h4>
 
-<p><img src="../images/push_pop_1.png" width="300" alt="image" />   <img src="../images/push_pop_2.png" width="300" alt="image" /></p>
+<p><img src="../images/push_pop_1.png" width="300" alt="" /> <img src="../images/push_pop_2.png" width="300" alt="" /></p>
 
 <h4>二、UINavigationViewController 设置</h4>
 
@@ -152,32 +152,32 @@ edgePanGestureRecognizer.edges = UIRectEdgeLeft;
 
 <p>处理  UIScreenEdgePanGestureRecognizer 事件</p>
 
-<pre><code>- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)recognizer {
-    CGFloat progress = [recognizer translationInView:self.view].x / (self.view.bounds.size.width * 1.0);
-    progress = MIN(1.0, MAX(0.0, progress));
+<pre><code>- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)recognize    {
+    CGFloat progress = [recognizer translationInView:self.view].x / (self.view.bounds.size.width * 1.)  ;
+    progress = MIN(1.0, MAX(0.0, progress)  ;
 
-    switch (recognizer.state) {
-        case UIGestureRecognizerStateBegan: {
-            self.interactivePopTransition = [UIPercentDrivenInteractiveTransition new];
-            [self.navigationController popViewControllerAnimated:YES];
-            break;
+    switch (recognizer.state    {
+        case UIGestureRecognizerStateBegan  {
+            self.interactivePopTransition = [UIPercentDrivenInteractiveTransition ne]   ;
+            [self.navigationController popViewControllerAnimated:YE]    ;
+            brek    ;
         }
-        case UIGestureRecognizerStateChanged: {
-            [self.interactivePopTransition updateInteractiveTransition:progress];
-            break;
+        case UIGestureRecognizerStateChanged    {
+            [self.interactivePopTransition updateInteractiveTransition:progres] ;
+            brek    ;
         }
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled: {
-            if (progress &gt; 0.3) {
-                [self.interactivePopTransition finishInteractiveTransition];
-            } else {
-                [self.interactivePopTransition cancelInteractiveTransition];
+        case UIGestureRecognizerStateEndd   :
+        case UIGestureRecognizerStateCancelled  {
+            if (progress &gt; 0.3  {
+                [self.interactivePopTransition finishInteractiveTransitio]  ;
+            } els   {
+                [self.interactivePopTransition cancelInteractiveTransitio]  ;
             }
-            self.interactivePopTransition = nil;
-            break;
+            self.interactivePopTransition = nl  ;
+            brek    ;
         }
-        default: {
-            break;
+        default     {
+            brek    ;
         }
     }
 }
