@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://gukong.github.io/atom.xml" rel="self"/>
   <link href="http://gukong.github.io/"/>
-  <updated>2016-04-03T18:29:47+08:00</updated>
+  <updated>2016-04-03T19:46:15+08:00</updated>
   <id>http://gukong.github.io/</id>
   <author>
     <name><![CDATA[Nate]]></name>
@@ -14,11 +14,176 @@
 
   
   <entry>
-    <title type="html"><![CDATA[first]]></title>
-    <link href="http://gukong.github.io/blog/2016/03/30/first/"/>
-    <updated>2016-03-30T11:11:10+08:00</updated>
-    <id>http://gukong.github.io/blog/2016/03/30/first</id>
-    <content type="html"><![CDATA[
+    <title type="html"><![CDATA[Push Pop 手势过渡动画]]></title>
+    <link href="http://gukong.github.io/blog/2016/04/03/push-pop-shou-shi-guo-du-dong-hua/"/>
+    <updated>2016-04-03T18:34:06+08:00</updated>
+    <id>http://gukong.github.io/blog/2016/04/03/push-pop-shou-shi-guo-du-dong-hua</id>
+    <content type="html"><![CDATA[<h2>原料</h2>
+
+<ul>
+<li>SwipeTransitioning : NSObject &lt;UIViewControllerAnimatedTransitioning></li>
+<li>FirstViewController () &lt;UINavigationControllerDelegate></li>
+<li>SecondViewController ()</li>
+<li>UIScreenEdgePanGestureRecognizer *edgePanGestureRecognizer</li>
+</ul>
+
+
+<hr />
+
+<h2>关键点</h2>
+
+<ul>
+<li>push、pop 是 SwipeTransitioning 处理动画过渡</li>
+<li>UIScreenEdgePanGestureRecognizer 要 add 到需要 pop 的那个ViewController</li>
+<li>UIScreenEdgePanGestureRecognizer 设置了动画进度</li>
+<li>It&rsquo;s is easy!</li>
+</ul>
+
+
+<hr />
+
+<h2>流程</h2>
+
+<h4>一、布局 UIImageView</h4>
+
+<p><img src="../images/push_pop_1.png" width="300" alt="image" />   <img src="../images/push_pop_2.png" width="300" alt="image" /></p>
+
+<h4>二、UINavigationViewController 设置</h4>
+
+<pre><code>self.navigationController.delegate = self;
+swipeTransitioning = [SwipeTransitioning new];
+</code></pre>
+
+<h4>三、开始 Push（设置UIScreenEdgePanGestureRecognizer）</h4>
+
+<pre><code>//push viewController
+SecondViewController *con = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+[self.navigationController pushViewController:con animated:YES];
+
+//设置UIScreenEdgePanGestureRecognizer
+UIScreenEdgePanGestureRecognizer *edgePanGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgePanGesture:)];
+edgePanGestureRecognizer.edges = UIRectEdgeLeft;
+[con.view addGestureRecognizer:edgePanGestureRecognizer];
+</code></pre>
+
+<h4>四、处理 Push 动画</h4>
+
+<p>处理 UINavigationControllerDelegate 事件</p>
+
+<pre><code>- (id&lt;UIViewControllerAnimatedTransitioning&gt;)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC
+{
+    switch (operation) {
+        case UINavigationControllerOperationPush: {
+            return swipeTransitioning;
+            break;
+        }
+        case UINavigationControllerOperationPop: {
+            return swipeTransitioning;
+            break;
+        }
+        default: {
+            return nil;
+        }
+    }
+}
+</code></pre>
+
+<p>SwipeTransitioning 处理过渡动画</p>
+
+<pre><code>@implementation SwipeTransitioning
+
+- (NSTimeInterval)transitionDuration:(id &lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+    return 0.8f;
+}
+
+- (void)animateTransition:(id &lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+
+    //获得fromViewController, toViewController, containerView(fromView，toView，transitioningView都在这上面切换)
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *containerView = [transitionContext containerView];
+
+    //获取需要做动画的View，计算Frame，获得过渡动画的初始位置
+    UIView *oriImageView = (UIView *)[fromVC valueForKey:@"imageView"];
+    UIView *fromViewShot = [oriImageView snapshotViewAfterScreenUpdates:YES];
+    fromViewShot.frame = [containerView convertRect:oriImageView.frame fromView:oriImageView.superview];
+
+    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
+    toVC.view.alpha = 0;
+    [containerView addSubview:toVC.view];
+
+    [containerView addSubview:fromViewShot];
+
+
+    [containerView layoutIfNeeded];
+    [UIView animateWithDuration:0.8f
+                          delay:0.0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:1.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         toVC.view.alpha = 1.0;
+                         //动画View的最终位置
+                         UIView *toView = (UIView *)[toVC valueForKey:@"imageView"];
+                         CGRect frame = [containerView convertRect:toView.frame fromView:toView.superview];
+                         [fromViewShot setFrame:frame];
+                     } completion:^(BOOL finished) {
+                         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+                     }];
+}
+
+
+@end
+</code></pre>
+
+<h4>五、处理 Pop 动画</h4>
+
+<p>处理 UINavigationControllerDelegate 事件</p>
+
+<pre><code>- (id&lt;UIViewControllerInteractiveTransitioning&gt;)navigationController:(UINavigationController *)navigationController
+                         interactionControllerForAnimationController:(id&lt;UIViewControllerAnimatedTransitioning&gt;)animationController
+{
+    return self.interactivePopTransition;
+}
+</code></pre>
+
+<p>处理  UIScreenEdgePanGestureRecognizer 事件</p>
+
+<pre><code>- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)recognizer {
+    CGFloat progress = [recognizer translationInView:self.view].x / (self.view.bounds.size.width * 1.0);
+    progress = MIN(1.0, MAX(0.0, progress));
+
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan: {
+            self.interactivePopTransition = [UIPercentDrivenInteractiveTransition new];
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        }
+        case UIGestureRecognizerStateChanged: {
+            [self.interactivePopTransition updateInteractiveTransition:progress];
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled: {
+            if (progress &gt; 0.3) {
+                [self.interactivePopTransition finishInteractiveTransition];
+            } else {
+                [self.interactivePopTransition cancelInteractiveTransition];
+            }
+            self.interactivePopTransition = nil;
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+</code></pre>
+
+<hr />
 ]]></content>
   </entry>
   
