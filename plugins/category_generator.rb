@@ -1,27 +1,30 @@
-# encoding: utf-8
-#
-# Jekyll category page generator.
-# http://recursive-design.com/projects/jekyll-plugins/
-#
-# Version: 0.1.4 (201101061053)
-#
-# Copyright (c) 2010 Dave Perrett, http://recursive-design.com/
-# Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-#
-# A generator that creates category pages for jekyll sites.
-#
-# Included filters :
-# - category_links:      Outputs the list of categories as comma-separated <a> links.
-# - date_to_html_string: Outputs the post.date as formatted html, with hooks for CSS styling.
-#
-# Available _config.yml settings :
-# - category_dir:          The subfolder to build category pages in (default is 'categories').
-# - category_title_prefix: The string used before the category name in the page title (default is
-#                          'Category: ').
-
 require 'stringex'
 
 module Jekyll
+
+  def self.get_category_attributes(category)
+    att = category.split('|')
+    slug = att[0].to_url
+    name = att[0].split.map(&:capitalize).join(' ')
+    
+    case att.size
+    when 1
+        #首字母大写
+        name = att[0]
+    when 2
+        #首字母大写 其余小写
+        name = att[0].split.map(&:capitalize).join(' ')
+    when 3
+        #首字母小写 其余大写
+        name = att[0].split.map(&:capitalize).join(' ')
+        name = name.swapcase
+    when 4
+        #全大写
+        name = att[0].upcase
+    end
+
+    [slug, name]
+  end
 
   # The CategoryIndex class creates a single category page for the specified category.
   class CategoryIndex < Page
@@ -42,10 +45,15 @@ module Jekyll
       self.data['category']    = category
       # Set the title for this page.
       title_prefix             = site.config['category_title_prefix'] || 'Category: '
-      self.data['title']       = "#{title_prefix}#{category}"
+      # self.data['title']       = "#{title_prefix}#{category}"
+      att = Jekyll.get_category_attributes(category)
+      self.data['title']       = "#{title_prefix}#{att[1]}"
+
       # Set the meta-description for this page.
       meta_description_prefix  = site.config['category_meta_description_prefix'] || 'Category: '
-      self.data['description'] = "#{meta_description_prefix}#{category}"
+      # self.data['description'] = "#{meta_description_prefix}#{category}"
+      self.data['description'] = "#{meta_description_prefix}#{att[1]}"
+
     end
 
   end
@@ -69,10 +77,15 @@ module Jekyll
       self.data['category']    = category
       # Set the title for this page.
       title_prefix             = site.config['category_title_prefix'] || 'Category: '
-      self.data['title']       = "#{title_prefix}#{category}"
+      # self.data['title']       = "#{title_prefix}#{category}"
+      att = Jekyll.get_category_attributes(category)
+      self.data['title']       = "#{title_prefix}#{att[1]}"
+
       # Set the meta-description for this page.
       meta_description_prefix  = site.config['category_meta_description_prefix'] || 'Category: '
-      self.data['description'] = "#{meta_description_prefix}#{category}"
+      # self.data['description'] = "#{meta_description_prefix}#{category}"
+      self.data['description'] = "#{meta_description_prefix}#{att[1]}"
+
 
       # Set the correct feed URL.
       self.data['feed_url'] = "#{category_dir}/#{name}"
@@ -108,7 +121,10 @@ module Jekyll
       if self.layouts.key? 'category_index'
         dir = self.config['category_dir'] || 'categories'
         self.categories.keys.each do |category|
-          self.write_category_index(File.join(dir, category.to_url), category)
+          # self.write_category_index(File.join(dir, category.to_url), category)
+          att = Jekyll.get_category_attributes(category)
+          self.write_category_index(File.join(dir, att[0]), category)
+
         end
 
       # Throw an exception if the layout couldn't be found.
@@ -164,7 +180,10 @@ ERR
     #
     def category_link(category)
       dir = @context.registers[:site].config['category_dir']
-      "<a class='category' href='/#{dir}/#{category.to_url}/'>#{category}</a>"
+      # "<a class='category' href='/#{dir}/#{category.to_url}/'>#{category}</a>"
+      att = Jekyll.get_category_attributes(category)
+      "<a class='category' href='/#{dir}/#{att[0]}/'>#{att[1]}</a>"
+
     end
 
     # Outputs the post.date as formatted html, with hooks for CSS styling.

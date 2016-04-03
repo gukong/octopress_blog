@@ -3,23 +3,24 @@ layout: post
 title: "Push Pop 手势过渡动画"
 date: 2016-04-03 18:34:06 +0800
 comments: true
-categories: iOS开发
+categories: iOS开发|a|a
 ---
 ##原料
 * SwipeTransitioning : NSObject <UIViewControllerAnimatedTransitioning\>
 * FirstViewController () <UINavigationControllerDelegate\>
 * SecondViewController ()
 * UIScreenEdgePanGestureRecognizer *edgePanGestureRecognizer
-_____
+
 ## 关键点
 * push、pop 是 SwipeTransitioning 处理动画过渡
 * UIScreenEdgePanGestureRecognizer 要 add 到需要 pop 的那个ViewController
 * UIScreenEdgePanGestureRecognizer 设置了动画进度
 * It's is easy!
-_____
+
 ##流程
 #### 一、布局 UIImageView
-![image](../images/push_pop_1.png =300x)   ![image](../images/push_pop_2.png =300x)
+{% img /images/push_pop_1.png 300 %} 
+{% img /images/push_pop_2.png 300 %}
 
 #### 二、UINavigationViewController 设置
 
@@ -118,34 +119,32 @@ SwipeTransitioning 处理过渡动画
 	
 处理	UIScreenEdgePanGestureRecognizer 事件
 	
-	- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)recognizer {
-	    CGFloat progress = [recognizer translationInView:self.view].x / (self.view.bounds.size.width * 1.0);
-	    progress = MIN(1.0, MAX(0.0, progress));
-	    
-	    switch (recognizer.state) {
-	        case UIGestureRecognizerStateBegan: {
-	            self.interactivePopTransition = [UIPercentDrivenInteractiveTransition new];
-	            [self.navigationController popViewControllerAnimated:YES];
-	            break;
-	        }
-	        case UIGestureRecognizerStateChanged: {
-	            [self.interactivePopTransition updateInteractiveTransition:progress];
-	            break;
-	        }
-	        case UIGestureRecognizerStateEnded:
-	        case UIGestureRecognizerStateCancelled: {
-	            if (progress > 0.3) {
-	                [self.interactivePopTransition finishInteractiveTransition];
-	            } else {
-	                [self.interactivePopTransition cancelInteractiveTransition];
-	            }
-	            self.interactivePopTransition = nil;
-	            break;
-	        }
-	        default: {
-	            break;
-	        }
-	    }
+	- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)recognize 	{
+	    CGFloat progress = [recognizer translationInView:self.view].x / (self.view.bounds.size.width * 1.)	;
+	    progress = MIN(1.0, MAX(0.0, progress)	;
+	  	 
+	    switch (recognizer.state 	{
+	        case UIGestureRecognizerStateBegan 	{
+	            self.interactivePopTransition = [UIPercentDrivenInteractiveTransition ne]	;
+	            [self.navigationController popViewControllerAnimated:YE]	;
+	            brek	;
+	       	}
+	        case UIGestureRecognizerStateChanged 	{
+	            [self.interactivePopTransition updateInteractiveTransition:progres]	;
+	            brek	;
+	       	}
+	        case UIGestureRecognizerStateEndd	:
+	        case UIGestureRecognizerStateCancelled 	{
+	            if (progress > 0.3 	{
+	                [self.interactivePopTransition finishInteractiveTransitio]	;
+	            } els 	{
+	                [self.interactivePopTransition cancelInteractiveTransitio]	;
+	           	}
+	            self.interactivePopTransition = nl	;
+	            brek	;
+	       	}
+	        default 	{
+	            brek	;
+	       	}
+	   	}
 	}
-
-_____
