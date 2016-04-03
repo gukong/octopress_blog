@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://gukong.github.io/atom.xml" rel="self"/>
   <link href="http://gukong.github.io/"/>
-  <updated>2016-04-03T21:09:59+08:00</updated>
+  <updated>2016-04-04T01:21:30+08:00</updated>
   <id>http://gukong.github.io/</id>
   <author>
     <name><![CDATA[Nate]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[const study]]></title>
+    <link href="http://gukong.github.io/blog/2016/04/03/category-name/"/>
+    <updated>2016-04-03T22:59:45+08:00</updated>
+    <id>http://gukong.github.io/blog/2016/04/03/category-name</id>
+    <content type="html"><![CDATA[<p>ios 全部小写</p>
+
+<p>ios|a 首字母大写</p>
+
+<p>ios|a|a 首字母小写</p>
+
+<p>ios|a|a|a 全部大写</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Push Pop 手势过渡动画]]></title>
@@ -28,8 +43,6 @@
 </ul>
 
 
-<hr />
-
 <h2>关键点</h2>
 
 <ul>
@@ -40,13 +53,12 @@
 </ul>
 
 
-<hr />
-
 <h2>流程</h2>
 
 <h4>一、布局 UIImageView</h4>
 
-<p><img src="../images/push_pop_1.png" width="300" alt="" /> <img src="../images/push_pop_2.png" width="300" alt="" /></p>
+<p><img src="http://gukong.github.io/images/push_pop_1.png" width="300">
+<img src="http://gukong.github.io/images/push_pop_2.png" width="300"></p>
 
 <h4>二、UINavigationViewController 设置</h4>
 
@@ -182,8 +194,6 @@ edgePanGestureRecognizer.edges = UIRectEdgeLeft;
     }
 }
 </code></pre>
-
-<hr />
 ]]></content>
   </entry>
   

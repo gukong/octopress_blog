@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://gukong.github.io/blog/2016/04/03/category-name/</loc>
+<lastmod>2016-04-03T22:59:45+08:00</lastmod>
+</url>
+<url>
 <loc>http://gukong.github.io/blog/2016/04/03/push-pop-shou-shi-guo-du-dong-hua/</loc>
 <lastmod>2016-04-03T18:34:06+08:00</lastmod>
 </url>
@@ -18,5 +22,8 @@
 </url>
 <url>
 <loc>http://gukong.github.io/blog/categories/ioskai-fa/</loc>
+</url>
+<url>
+<loc>http://gukong.github.io/blog/categories/fen-lei-ming-ming-gui-fan/</loc>
 </url>
 </urlset>

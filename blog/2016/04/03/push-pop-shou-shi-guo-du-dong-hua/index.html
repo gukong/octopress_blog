@@ -38,23 +38,29 @@ FirstViewController () &lt; &hellip;">
 		<div class="left-col">
 			<div class="intrude-less">
 			<header id="header" class="inner"><div class="profilepic">
-	
-	<script src="/javascripts/md5.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
-		});
-	</script>
-	
+	<img src="/images/avatar.jpg" alt="Profile Picture" style="width: 160px;" />
 </div>
+
 
 
 <nav id="main-nav"><ul class="main">
     <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
     <li><a href="/blog/archives">Archives</a></li>
 </ul>
 </nav>
+
+<br>
+
+<section style="text-align: center">
+    <h1>Categories</h1>
+    <ul id="categories">
+        <li class='category'><a style='color:#f0f2c0;font-weight:bold' href='/blog/categories/ioskai-fa/'>iOS开发 (1)</a></li>
+<li class='category'><a style='color:#f0f2c0;font-weight:bold' href='/blog/categories/fen-lei-ming-ming-gui-fan/'>分类命名规范 (1)</a></li>
+
+    </ul>
+</section>
+
+
 </header>				
 			</div>
 		</div>	
@@ -75,8 +81,6 @@ FirstViewController () &lt; &hellip;">
 </ul>
 
 
-<hr />
-
 <h2>关键点</h2>
 
 <ul>
@@ -87,13 +91,12 @@ FirstViewController () &lt; &hellip;">
 </ul>
 
 
-<hr />
-
 <h2>流程</h2>
 
 <h4>一、布局 UIImageView</h4>
 
-<p><img src="../images/push_pop_1.png" width="300" alt="" /> <img src="../images/push_pop_2.png" width="300" alt="" /></p>
+<p><img src="/images/push_pop_1.png" width="300">
+<img src="/images/push_pop_2.png" width="300"></p>
 
 <h4>二、UINavigationViewController 设置</h4>
 
@@ -229,8 +232,6 @@ edgePanGestureRecognizer.edges = UIRectEdgeLeft;
     }
 }
 </code></pre>
-
-<hr />
 </div>
 
 </article>
@@ -239,8 +240,6 @@ edgePanGestureRecognizer.edges = UIRectEdgeLeft;
 	<div class="addthis_toolbox addthis_default_style ">
 	
 	
-	<a class="addthis_button_tweet"></a>
-	
 	
 	<a class="addthis_counter addthis_pill_style"></a>
 	</div>
@@ -248,6 +247,26 @@ edgePanGestureRecognizer.edges = UIRectEdgeLeft;
 </div>
 
 
+
+
+
+<section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="Push Pop 手势过渡动画"></div>
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"gukong123"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2016
