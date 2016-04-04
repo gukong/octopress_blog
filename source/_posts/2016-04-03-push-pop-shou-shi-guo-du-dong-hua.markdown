@@ -12,10 +12,10 @@ categories: iOS开发|a|a
 * UIScreenEdgePanGestureRecognizer *edgePanGestureRecognizer
 
 ## 关键点
-* push、pop 是 SwipeTransitioning 处理动画过渡
+* push、pop 由 SwipeTransitioning 处理动画过渡
 * UIScreenEdgePanGestureRecognizer 要 add 到需要 pop 的那个ViewController
 * UIScreenEdgePanGestureRecognizer 设置了动画进度
-* It's is easy!
+* It's easy!
 
 ##流程
 #### 一、布局 UIImageView
