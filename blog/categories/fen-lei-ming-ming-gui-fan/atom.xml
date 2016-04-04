@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 分类命名规范 | My Octopress Blog]]></title>
+  <link href="http://gukong.github.io/blog/categories/fen-lei-ming-ming-gui-fan/atom.xml" rel="self"/>
+  <link href="http://gukong.github.io/"/>
+  <updated>2016-04-04T09:35:13+08:00</updated>
+  <id>http://gukong.github.io/</id>
+  <author>
+    <name><![CDATA[Nate]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[const study]]></title>
+    <link href="http://gukong.github.io/blog/2016/04/03/category-name/"/>
+    <updated>2016-04-03T22:59:45+08:00</updated>
+    <id>http://gukong.github.io/blog/2016/04/03/category-name</id>
+    <content type="html"><![CDATA[<p>ios 全部小写</p>
+
+<p>ios|a 首字母大写</p>
+
+<p>ios|a|a 首字母小写</p>
+
+<p>ios|a|a|a 全部大写</p>
+]]></content>
+  </entry>
+  
+</feed>

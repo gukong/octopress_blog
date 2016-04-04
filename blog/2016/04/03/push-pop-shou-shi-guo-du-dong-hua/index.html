@@ -1,0 +1,293 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Push Pop 手势过渡动画 - My Octopress Blog</title>
+	<meta name="author" content="Nate">
+
+	
+	<meta name="description" content="Push Pop 手势过渡动画 原料 SwipeTransitioning : NSObject &lt;UIViewControllerAnimatedTransitioning>
+FirstViewController () &lt; &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://gukong.github.io/blog/2016/04/03/push-pop-shou-shi-guo-du-dong-hua/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src="/images/avatar.jpg" alt="Profile Picture" style="width: 160px;" />
+</div>
+
+
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+
+<br>
+
+<section style="text-align: center">
+    <h1>Categories</h1>
+    <ul id="categories">
+        <li class='category'><a style='color:#f0f2c0;font-weight:bold' href='/blog/categories/ioskai-fa/'>iOS开发 (1)</a></li>
+<li class='category'><a style='color:#f0f2c0;font-weight:bold' href='/blog/categories/fen-lei-ming-ming-gui-fan/'>分类命名规范 (1)</a></li>
+
+    </ul>
+</section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Push Pop 手势过渡动画</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>原料</h2>
+
+<ul>
+<li>SwipeTransitioning : NSObject &lt;UIViewControllerAnimatedTransitioning></li>
+<li>FirstViewController () &lt;UINavigationControllerDelegate></li>
+<li>SecondViewController ()</li>
+<li>UIScreenEdgePanGestureRecognizer *edgePanGestureRecognizer</li>
+</ul>
+
+
+<h2>关键点</h2>
+
+<ul>
+<li>push、pop 由 SwipeTransitioning 处理动画过渡</li>
+<li>UIScreenEdgePanGestureRecognizer 要 add 到需要 pop 的那个ViewController</li>
+<li>UIScreenEdgePanGestureRecognizer 设置了动画进度</li>
+<li>It&rsquo;s easy!</li>
+</ul>
+
+
+<h2>流程</h2>
+
+<h4>一、布局 UIImageView</h4>
+
+<p><img src="/images/push_pop_1.png" width="300">
+<img src="/images/push_pop_2.png" width="300"></p>
+
+<h4>二、UINavigationViewController 设置</h4>
+
+<pre><code>self.navigationController.delegate = self;
+swipeTransitioning = [SwipeTransitioning new];
+</code></pre>
+
+<h4>三、开始 Push（设置UIScreenEdgePanGestureRecognizer）</h4>
+
+<pre><code>//push viewController
+SecondViewController *con = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+[self.navigationController pushViewController:con animated:YES];
+
+//设置UIScreenEdgePanGestureRecognizer
+UIScreenEdgePanGestureRecognizer *edgePanGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgePanGesture:)];
+edgePanGestureRecognizer.edges = UIRectEdgeLeft;
+[con.view addGestureRecognizer:edgePanGestureRecognizer];
+</code></pre>
+
+<h4>四、处理 Push 动画</h4>
+
+<p>处理 UINavigationControllerDelegate 事件</p>
+
+<pre><code>- (id&lt;UIViewControllerAnimatedTransitioning&gt;)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC
+{
+    switch (operation) {
+        case UINavigationControllerOperationPush: {
+            return swipeTransitioning;
+            break;
+        }
+        case UINavigationControllerOperationPop: {
+            return swipeTransitioning;
+            break;
+        }
+        default: {
+            return nil;
+        }
+    }
+}
+</code></pre>
+
+<p>SwipeTransitioning 处理过渡动画</p>
+
+<pre><code>@implementation SwipeTransitioning
+
+- (NSTimeInterval)transitionDuration:(id &lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+    return 0.8f;
+}
+
+- (void)animateTransition:(id &lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+
+    //获得fromViewController, toViewController, containerView(fromView，toView，transitioningView都在这上面切换)
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *containerView = [transitionContext containerView];
+
+    //获取需要做动画的View，计算Frame，获得过渡动画的初始位置
+    UIView *oriImageView = (UIView *)[fromVC valueForKey:@"imageView"];
+    UIView *fromViewShot = [oriImageView snapshotViewAfterScreenUpdates:YES];
+    fromViewShot.frame = [containerView convertRect:oriImageView.frame fromView:oriImageView.superview];
+
+    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
+    toVC.view.alpha = 0;
+    [containerView addSubview:toVC.view];
+
+    [containerView addSubview:fromViewShot];
+
+
+    [containerView layoutIfNeeded];
+    [UIView animateWithDuration:0.8f
+                          delay:0.0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:1.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         toVC.view.alpha = 1.0;
+                         //动画View的最终位置
+                         UIView *toView = (UIView *)[toVC valueForKey:@"imageView"];
+                         CGRect frame = [containerView convertRect:toView.frame fromView:toView.superview];
+                         [fromViewShot setFrame:frame];
+                     } completion:^(BOOL finished) {
+                         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+                     }];
+}
+
+
+@end
+</code></pre>
+
+<h4>五、处理 Pop 动画</h4>
+
+<p>处理 UINavigationControllerDelegate 事件</p>
+
+<pre><code>- (id&lt;UIViewControllerInteractiveTransitioning&gt;)navigationController:(UINavigationController *)navigationController
+                         interactionControllerForAnimationController:(id&lt;UIViewControllerAnimatedTransitioning&gt;)animationController
+{
+    return self.interactivePopTransition;
+}
+</code></pre>
+
+<p>处理  UIScreenEdgePanGestureRecognizer 事件</p>
+
+<pre><code>- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)recognize    {
+    CGFloat progress = [recognizer translationInView:self.view].x / (self.view.bounds.size.width * 1.)  ;
+    progress = MIN(1.0, MAX(0.0, progress)  ;
+
+    switch (recognizer.state    {
+        case UIGestureRecognizerStateBegan  {
+            self.interactivePopTransition = [UIPercentDrivenInteractiveTransition ne]   ;
+            [self.navigationController popViewControllerAnimated:YE]    ;
+            brek    ;
+        }
+        case UIGestureRecognizerStateChanged    {
+            [self.interactivePopTransition updateInteractiveTransition:progres] ;
+            brek    ;
+        }
+        case UIGestureRecognizerStateEndd   :
+        case UIGestureRecognizerStateCancelled  {
+            if (progress &gt; 0.3  {
+                [self.interactivePopTransition finishInteractiveTransitio]  ;
+            } els   {
+                [self.interactivePopTransition cancelInteractiveTransitio]  ;
+            }
+            self.interactivePopTransition = nl  ;
+            brek    ;
+        }
+        default     {
+            brek    ;
+        }
+    }
+}
+</code></pre>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+<section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="Push Pop 手势过渡动画"></div>
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"gukong123"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2016
+
+    Nate
+
+</footer>
+		</div>
+	</div>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>
