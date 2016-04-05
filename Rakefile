@@ -267,6 +267,9 @@ multitask :push do
     puts "\n## Pushing generated #{deploy_dir} website"
     Bundler.with_clean_env { system "git push origin #{deploy_branch}" }
     puts "\n## Github Pages deploy complete"
+    system "git remote add git@git.coding.net:gukong/gukong.git >> /dev/null 2>&1"
+    system "git push git@git.coding.net:gukong/gukong.git"
+
   end
 end
 
