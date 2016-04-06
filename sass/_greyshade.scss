@@ -99,6 +99,8 @@ body {
 			#content {
 				width: 100%;
 				article {
+					box-shadow:0 0 20px rgba(0,0,0,0.2);
+					border-radius:5px;
 					border-top: none;
 					padding: 40px 30px;
 					background-color: #f7f7f7;
