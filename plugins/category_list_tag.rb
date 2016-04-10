@@ -7,7 +7,7 @@ module Jekyll
             categories.sort.reduce("") do |html, category|
                 posts_in_category = context.registers[:site].categories[category].size
                 att = Jekyll.get_category_attributes(category)
-                html << "<li class='category'><a style='color:#f0f2c0;font-weight:bold' href='/#{category_dir}/#{att[0]}/'>#{att[1]} (#{posts_in_category})</a></li>\n"
+                html << "<li class='category'><a style='font-weight:bold' href='/#{category_dir}/#{att[0]}/'>#{att[1]} (#{posts_in_category})</a></li>\n"
             end
         end
     end
